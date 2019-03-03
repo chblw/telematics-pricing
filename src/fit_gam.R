@@ -48,7 +48,6 @@ data_test <- data[test_index, ]
 gam1.out <- gam(nb2 ~ 1 + s(km, bs="cr", k = 7) + s(d, bs="cr", k = 3), 
                family = poisson(link = log),
                data = data_train, scale = -1, gamma = 1)
-mod_km_duration <- gam(nb2 ~ s(km, bs="cr", k=7) + s(d, bs="cr", k=3), data = data_train, family=poisson(link="log"), scale=-1, gamma=1)
 
 summary(gam1.out)
 plot(gam1.out)
