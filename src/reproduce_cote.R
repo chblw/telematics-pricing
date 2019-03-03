@@ -157,3 +157,4 @@ glm6.out <- glm(nb2 ~ 1 + x1 + x2 + x3 + x4 + x5 + x6 + x7 + offset(log(d)),
                 family = poisson(link = log), data = data_model3.3)
 
 summary(glm6.out)$coefficients[7:8, 1:2]
+
