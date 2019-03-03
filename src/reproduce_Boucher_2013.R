@@ -13,7 +13,7 @@ subtract <- function(x, y) x - y
 
 # Import data -------------------------------------------------------------
 
-data <- read_csv("data/Spain-2011.csv")
+data <- read_csv("src/data/Spain-2011.csv")
 data <- as.tibble(data)
 data <- data %>% filter(expo == 365)
 

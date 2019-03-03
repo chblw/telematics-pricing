@@ -38,3 +38,6 @@ rsconnect/
 
 # All data 
 src/data/
+
+# Rapport
+rapport/*

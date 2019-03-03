@@ -15,9 +15,9 @@ library(gamlss)
 
 columns_not_in_2009_data <- c(86:94, 101:118)
 
-data_original_2011 <- read_csv("data/Spain-2011.csv") %>% mutate(year = 2011)
-data_original_2010 <- read_csv("data/Spain-2010.csv") %>% mutate(year = 2010)
-data_original_2009 <- read_csv("data/Spain-2009.csv") %>% mutate(year = 2009)
+data_original_2011 <- read_csv("src/data/Spain-2011.csv") %>% mutate(year = 2011)
+data_original_2010 <- read_csv("src/data/Spain-2010.csv") %>% mutate(year = 2010)
+data_original_2009 <- read_csv("src/data/Spain-2009.csv") %>% mutate(year = 2009)
 
 data_original <- rbind(data_original_2009, 
                        data_original_2010[, -columns_not_in_2009_data], 
