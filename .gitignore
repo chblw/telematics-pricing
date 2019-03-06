@@ -40,4 +40,5 @@ rsconnect/
 src/data/
 
 # Rapport
-rapport/*
+src/Rplots.*
+src/sweave*
