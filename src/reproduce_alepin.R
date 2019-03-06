@@ -96,8 +96,23 @@ data_test <- data %>% filter(id %in% test_index)
 
 # Fit regression ----------------------------------------------------------
 
-glm.poisson <- glm(nb2 ~ 1 + x2 + x3 + x4 + x5 + x6 + x7 + x8, 
-                   offset = log(d), family = poisson, 
-                   data = data_train)
+glm.poisson <- glm(nb2 ~ 1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                     offset(log(d)), family = poisson, data = data_train)
 
-summary(glm.poisson)
+glm.poisson$aic
+
+glm.nb2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = NBI, data=data_train)
+glm.nb2$aic
+
+glm.nb1 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = NBII, data=data_train)
+glm.nb1$aic
+
+glm.pig <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = PIG, data=data_train)
+glm.pig$aic
+
+glm.zip <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = ZIP, data=data_train, method = RS(100))
+glm.zip$aic
+
+
+
+
