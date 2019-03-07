@@ -14,7 +14,7 @@ library(mgcv)
 
 # Import data -------------------------------------------------------------
 
-data_original <- read_csv("src/data/EARNIX_INPUT_2016_12_16.csv")
+data_original <- read_csv("src/data/canada-2014-2017.csv")
 
 
 # Rename variables --------------------------------------------------------
@@ -22,7 +22,7 @@ data_original <- read_csv("src/data/EARNIX_INPUT_2016_12_16.csv")
 names(data_original)
 
 data <- data_original %>% 
-  mutate(nb2 = RA_NB_CLAIM) %>% 
+  mutate(nb2 = RA_ACCIDENT_IND) %>% 
   mutate(km = RA_DISTANCE_DRIVEN) %>% 
   mutate(age = RA_DRIVERAGE) %>% 
   mutate(sexe = RA_GENDER) %>% 
@@ -70,7 +70,7 @@ data %>% select(sexe) %>% table
 
 # Rename variables
 
-data <- data %>% mutate(sexe == "MALE")
+data <- data %>% mutate(sexe = sexe == "MALE")
   
 # Seperate dataset 
 
@@ -97,6 +97,13 @@ summary(gam2.out)
 
 plot(gam2.out, scheme = 1, theta = -45)
 
+gam2.out <- gam(nb2 ~ 1 + te(km, d, k = c(4, 3), bs = c("cr", "cr")), 
+                family = poisson(link = log), 
+                data = data_train, scale = -1, gamma = 1)
+
+summary(gam2.out)
+
+plot(gam2.out, scheme = 1, theta = -45)
 
 # Fit model 3.3 -----------------------------------------------------------
 
@@ -138,7 +145,16 @@ summary(gam5.out)$se[2:3]
 
 plot(gam5.out, scheme = 1, theta = -45)
 
-glm6.out <- glm(nb2 ~ 1 + x1 + x2 + x3 + x4 + x5 + x6 + x7 + offset(log(d)), 
+gam5.out <- gam(nb2 ~ 1 + te(km, d, k = c(4, 3), bs = c("cr", "cr")) + 
+                  x6 + x7, family = poisson(link = log), 
+                data = data_train, scale = -1, gamma = 1)
+
+gam5.out$coefficients[2:3]
+summary(gam5.out)$se[2:3]
+
+plot(gam5.out, scheme = 1, theta = -45)
+
+glm6.out <- glm(nb2 ~ 1 + x1 + x2 + x3 + x4 + x5 + x6 + x7 + offset(I(log(d))), 
                 family = poisson(link = log), data = data_model3.3)
 
 summary(glm6.out)$coefficients[7:8, 1:2]
