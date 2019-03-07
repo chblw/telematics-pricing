@@ -101,18 +101,97 @@ glm.poisson <- glm(nb2 ~ 1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 +
 
 glm.poisson$aic
 
-glm.nb2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = NBI, data=data_train)
+glm.nb2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), 
+                  family = NBI, data=data_train)
 glm.nb2$aic
 
-glm.nb1 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = NBII, data=data_train)
+glm.nb1 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), 
+                  family = NBII, data=data_train)
 glm.nb1$aic
 
-glm.pig <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = PIG, data=data_train)
+glm.pig <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), 
+                  family = PIG, data=data_train)
 glm.pig$aic
 
-glm.zip <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), family = ZIP, data=data_train, method = RS(100))
+glm.zip <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + offset(log(d)), 
+                  family = ZIP, data=data_train, method = RS(100))
 glm.zip$aic
 
 
+# Fit GAMLSS order 2 ------------------------------------------------------
+
+gamlss.poisson.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                           pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                family = PO, data = data_train)
+gamlss.poisson.order2$aic
+
+gamlss.nb2.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                           pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                           pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                         family = NBI, data = data_train)
+gamlss.nb2.order2$aic
+
+gamlss.nb1.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                            family = NBII, data = data_train)
+gamlss.nb1.order2$aic
+
+gamlss.pig.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                            family = PIG, data = data_train)
+gamlss.pig.order2$aic
+
+gamlss.zip.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                            family = ZIP, data = data_train)
+gamlss.zip.order2$aic
+
+gamlss.pig.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                            family = PIG, data = data_train, method = mixed(2,40))
+gamlss.pig.order2$aic
+
+gamlss.zip.order2 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 2, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 2, method = "GAIC")), 
+                            family = ZIP, data = data_train, method = mixed(2,40))
+gamlss.zip.order2$aic
 
 
+
+# Fit GAMLSS order 3 ------------------------------------------------------
+
+gamlss.poisson.order3 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                  pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")) +
+                                  pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                family = PO, data = data_train)
+gamlss.poisson.order3$aic
+
+gamlss.nb2.order3 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                            family = NBI, data = data_train)
+gamlss.nb2.order3$aic
+
+gamlss.nb1.order3 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                            family = NBII, data = data_train)
+gamlss.nb1.order3$aic
+
+gamlss.pig.order3 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                            family = PIG, data = data_train, method=mixed(2,20))
+gamlss.pig.order3$aic
+
+gamlss.zip.order3 <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                              pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")) +
+                              pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                            family = ZIP, data = data_train, method=mixed(2,20))
+gamlss.zip.order3$aic
