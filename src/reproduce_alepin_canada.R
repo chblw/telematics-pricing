@@ -285,6 +285,5 @@ gamlss.zip.order3_distortion_km <- gamlss(nbrtot ~ x2 + x3 + x4 + x5 + x6 + x7 +
 gamlss.nb2.order3_distortion_d$aic
 gamlss.nb2.order3_distortion_km$aic
 gamlss.nb1.order3_distortion_d$aic
-gamlss.nb1.order3_distortion_km$aic
 gamlss.zip.order3_distortion_d$aic
 gamlss.zip.order3_distortion_km$aic
