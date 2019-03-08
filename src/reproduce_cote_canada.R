@@ -71,7 +71,7 @@ data %>% select(sexe) %>% table
 # Rename variables
 
 data <- data %>% mutate(sexe = sexe == "MALE")
-  
+
 # Seperate dataset 
 
 data_test <- data %>% filter(RA_PARTITION == "TEST") %>% select(-RA_PARTITION)

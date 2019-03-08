@@ -119,19 +119,21 @@ glm.nb1$aic
 glm.pig$aic
 glm.zip$aic
 
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.poisson, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb2, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb1, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.pig, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.zip, newdata = data_train)))))
-data_train %>% select(nb2) %>% table
 
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.poisson, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb2, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb1, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.pig, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.zip, newdata = data_test)))))
-data_test %>% select(nb2) %>% table
+
+data.frame("Poisson" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.poisson, newdata = data_train))))),
+           "NB2" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb2, newdata = data_train))))),
+           "NB1" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb1, newdata = data_train))))),
+           "PIG" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.pig, newdata = data_train))))),
+           "ZIP" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.zip, newdata = data_train))))), 
+           "Obervé" = data_train %>% select(nb2) %>% table)
+
+data.frame("Poisson" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.poisson, newdata = data_test))))),
+           "NB2" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.nb2, newdata = data_test))))),
+           "NB1" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.nb1, newdata = data_test))))),
+           "PIG" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.pig, newdata = data_test))))),
+           "ZIP" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.zip, newdata = data_test))))), 
+           "Obervé" = data_test %>% select(nb2) %>% table)
 
 # Avec kilometrage --------------------------------------------------------
 
@@ -145,23 +147,23 @@ data_train <- data %>% filter(!(id %in% test_index))
 data_test <- data %>% filter(id %in% test_index)
 
 glm.poisson.km <- glm(nb2 ~ 1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
-                        x9 + x10 + 
+                        x9 + x10 + x11 + x12 + x13 + 
                      offset(log(d)), family = poisson, data = data_train)
 
 glm.nb2.km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
-                       x9 + x10 + offset(log(d)), 
+                       x9 + x10 + x11 + x12 + x13 + offset(log(d)), 
                   family = NBI, data=data_train)
 
 glm.nb1.km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
-                       x9 + x10 + offset(log(d)), 
+                       x9 + x10 + x11 + x12 + x13 + offset(log(d)), 
                   family = NBII, data=data_train)
 
 glm.pig.km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
-                       x9 + x10 + offset(log(d)), 
+                       x9 + x10 + x11 + x12 + x13 + offset(log(d)), 
                   family = PIG, data=data_train)
 
 glm.zip.km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
-                       x9 + x10 + offset(log(d)), 
+                       x9 + x10 + x11 + x12 + x13 + offset(log(d)), 
                   family = ZIP, data=data_train, method = RS(100))
 
 
@@ -171,19 +173,19 @@ glm.nb1.km$aic
 glm.pig.km$aic
 glm.zip.km$aic
 
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.poisson.km, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb2.km, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb1.km, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.pig.km, newdata = data_train)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.zip.km, newdata = data_train)))))
-data_train %>% select(nb2) %>% table
+data.frame("Poisson" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.poisson.km, newdata = data_train))))),
+           "NB2" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb2.km, newdata = data_train))))),
+           "NB1" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb1.km, newdata = data_train))))),
+           "PIG" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.pig.km, newdata = data_train))))),
+           "ZIP" = sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.zip.km, newdata = data_train))))), 
+           "Obervé" = data_train %>% select(nb2) %>% table)
 
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.poisson.km, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb2.km, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.nb1.km, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.pig.km, newdata = data_test)))))
-sapply(0:4, function(t) sum(dpois(t, exp(predict(glm.zip.km, newdata = data_test)))))
-data_test %>% select(nb2) %>% table
+data.frame("Poisson" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.poisson.km, newdata = data_test))))),
+           "NB2" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.nb2.km, newdata = data_test))))),
+           "NB1" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.nb1.km, newdata = data_test))))),
+           "PIG" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.pig.km, newdata = data_test))))),
+           "ZIP" = sapply(0:3, function(t) sum(dpois(t, exp(predict(glm.zip.km, newdata = data_test))))), 
+           "Obervé" = data_test %>% select(nb2) %>% table)
 
 
 # Fit GAMLSS order 2 ------------------------------------------------------
@@ -263,3 +265,43 @@ gamlss.nb2.order3$aic
 gamlss.nb1.order3$aic
 gamlss.pig.order3$aic
 gamlss.zip.order3$aic
+
+
+# Move regressors to dispersion -------------------------------------------
+
+gamlss.nb2.order3_distortion_d <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                         pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")),
+                                       sigma.formula = ~pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                       family = NBII, data = data_train, method=mixed(2,20))
+
+gamlss.nb1.order3_distortion_d <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                         pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")),
+                                       sigma.formula = ~pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                       family = NBI, data = data_train, method=mixed(2,20))
+
+gamlss.nb2.order3_distortion_km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                         pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")),
+                                       sigma.formula = ~pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                       family = NBII, data = data_train, method=mixed(2,20))
+
+gamlss.nb1.order3_distortion_km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                         pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")),
+                                       sigma.formula = ~pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                       family = NBI, data = data_train, method=mixed(2,20))
+
+gamlss.zip.order3_distortion_d <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                       pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")),
+                                       sigma.formula = ~pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                       family = ZIP, data = data_train, method=mixed(2,20))
+
+gamlss.zip.order3_distortion_km <- gamlss(nb2 ~ x2 + x3 + x4 + x5 + x6 + x7 + x8 + 
+                                         pb(d, control = pb.control(inter = 35, order = 3, method = "GAIC")),
+                                       sigma.formula = ~pb(km, control = pb.control(inter = 35, order = 3, method = "GAIC")), 
+                                       family = ZIP, data = data_train, method=mixed(2,20))
+
+gamlss.nb2.order3_distortion_d$aic
+gamlss.nb2.order3_distortion_km$aic
+gamlss.nb1.order3_distortion_d$aic
+gamlss.nb1.order3_distortion_km$aic
+gamlss.zip.order3_distortion_d$aic
+gamlss.zip.order3_distortion_km$aic
